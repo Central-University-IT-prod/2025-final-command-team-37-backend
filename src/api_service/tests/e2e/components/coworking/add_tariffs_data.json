@@ -1,0 +1,13 @@
+[
+  [
+    [
+      {
+        "coworking_id": "use_stored_coworking_id",
+        "name": "VIP",
+        "color": "#FFDD00",
+        "price_per_hour": 500
+      }
+    ],
+    201
+  ]
+]

@@ -1,0 +1,2673 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "API с JWT авторизацией",
+    "description": "Пример API, использующего JWT для авторизации в Swagger UI",
+    "version": "1.0"
+  },
+  "paths": {
+    "/v1/ping": {
+      "get": {
+        "tags": [
+          "Ping"
+        ],
+        "summary": "Ping",
+        "operationId": "ping_v1_ping_get",
+        "responses": {
+          "200": {
+            "description": "Ping",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "example": {
+                  "ping": "pong-pong-pong"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/user/profile": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Get Profile",
+        "operationId": "get_profile_v1_user_profile_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserDTO"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticate",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": "Not authenticate"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entity not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": "Entity not found"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/user/list": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "List Users",
+        "operationId": "list_users_v1_user_list_get",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 0,
+              "title": "Offset"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 10,
+              "title": "Limit"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserDTO"
+                  },
+                  "title": "Response List Users V1 User List Get"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticate",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": "Not authenticate"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/user/auth": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Auth User",
+        "operationId": "auth_user_v1_user_auth_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TelegramAuthDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "example": {
+                  "token": "REDACTED"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/coworking/{coworking_id}/get": {
+      "get": {
+        "tags": [
+          "Coworking"
+        ],
+        "summary": "Get Coworking",
+        "operationId": "get_coworking_v1_coworking__coworking_id__get_get",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "coworking_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Coworking Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CoworkingDTO"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticate",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": "Not authenticate"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entity not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": "Entity not found"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/coworking/list": {
+      "get": {
+        "tags": [
+          "Coworking"
+        ],
+        "summary": "List Coworkings",
+        "operationId": "list_coworkings_v1_coworking_list_get",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 0,
+              "title": "Offset"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 10,
+              "title": "Limit"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CoworkingDTO"
+                  },
+                  "title": "Response List Coworkings V1 Coworking List Get"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticate",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": "Not authenticate"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/coworking/add": {
+      "post": {
+        "tags": [
+          "Coworking"
+        ],
+        "summary": "Add Coworking",
+        "operationId": "add_coworking_v1_coworking_add_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CoworkingCreateDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CoworkingDTO"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticate",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": "Not authenticate"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": "Access denied"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/coworking/{coworking_id}/update": {
+      "patch": {
+        "tags": [
+          "Coworking"
+        ],
+        "summary": "Update Coworking",
+        "operationId": "update_coworking_v1_coworking__coworking_id__update_patch",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "coworking_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Coworking Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CoworkingUpdateDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CoworkingDTO"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticate",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": "Not authenticate"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": "Access denied"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entity not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": "Entity not found"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/coworking/{coworking_id}/delete": {
+      "delete": {
+        "tags": [
+          "Coworking"
+        ],
+        "summary": "Delete Coworking",
+        "operationId": "delete_coworking_v1_coworking__coworking_id__delete_delete",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "coworking_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Coworking Id"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "401": {
+            "description": "Not authenticate",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": "Not authenticate"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": "Access denied"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entity not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": "Entity not found"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/coworking/tariffs/add": {
+      "post": {
+        "tags": [
+          "Coworking"
+        ],
+        "summary": "Add Tariffs",
+        "operationId": "add_tariffs_v1_coworking_tariffs_add_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "items": {
+                  "$ref": "#/components/schemas/CoworkingTariffCreateDTO"
+                },
+                "type": "array",
+                "title": "Tariffs"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/CoworkingTariffDTO"
+                  },
+                  "type": "array",
+                  "title": "Response Add Tariffs V1 Coworking Tariffs Add Post"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticate",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": "Not authenticate"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": "Access denied"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entity not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": "Entity not found"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/coworking/{coworking_id}/tariffs/list": {
+      "get": {
+        "tags": [
+          "Coworking"
+        ],
+        "summary": "List Tariffs",
+        "operationId": "list_tariffs_v1_coworking__coworking_id__tariffs_list_get",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "coworking_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Coworking Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CoworkingTariffDTO"
+                  },
+                  "title": "Response List Tariffs V1 Coworking  Coworking Id  Tariffs List Get"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticate",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": "Not authenticate"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/workplace/upsert": {
+      "post": {
+        "tags": [
+          "Workplaces"
+        ],
+        "summary": "Upsert Workplaces",
+        "operationId": "upsert_workplaces_v1_workplace_upsert_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "items": {
+                  "$ref": "#/components/schemas/WorkplaceUpsertDTO"
+                },
+                "type": "array",
+                "title": "Workplaces"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/WorkplaceDTO"
+                  },
+                  "type": "array",
+                  "title": "Response Upsert Workplaces V1 Workplace Upsert Post"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticate",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": "Not authenticate"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": "Access denied"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/workplace/list": {
+      "get": {
+        "tags": [
+          "Workplaces"
+        ],
+        "summary": "List Workplaces",
+        "operationId": "list_workplaces_v1_workplace_list_get",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "coworking_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Coworking Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WorkplaceDTO"
+                  },
+                  "title": "Response List Workplaces V1 Workplace List Get"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticate",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": "Not authenticate"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/bookings/get": {
+      "get": {
+        "tags": [
+          "Booking"
+        ],
+        "summary": "Get Booking",
+        "operationId": "get_booking_v1_bookings_get_get",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "booking_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Booking Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BookingDTO"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticate",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": "Not authenticate"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Booking not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": "Booking not found"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/bookings/list/user": {
+      "get": {
+        "tags": [
+          "Booking"
+        ],
+        "summary": "List User Bookings",
+        "operationId": "list_user_bookings_v1_bookings_list_user_get",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 1,
+                  "examples": [
+                    1522105862
+                  ]
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "User Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BookingDTO"
+                  },
+                  "title": "Response List User Bookings V1 Bookings List User Get"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticate",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": "Not authenticate"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": "Access denied"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/bookings/list/coworking": {
+      "get": {
+        "tags": [
+          "Booking"
+        ],
+        "summary": "List Coworking Bookings",
+        "operationId": "list_coworking_bookings_v1_bookings_list_coworking_get",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "coworking_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Coworking Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BookingDTO"
+                  },
+                  "title": "Response List Coworking Bookings V1 Bookings List Coworking Get"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticate",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": "Not authenticate"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Coworking not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": "Coworking not found"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/bookings/list/all": {
+      "get": {
+        "tags": [
+          "Booking"
+        ],
+        "summary": "Get All Bookings",
+        "operationId": "get_all_bookings_v1_bookings_list_all_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/BookingDTO"
+                  },
+                  "type": "array",
+                  "title": "Response Get All Bookings V1 Bookings List All Get"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticate",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": "Not authenticate"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": "Access denied"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/bookings/add": {
+      "post": {
+        "tags": [
+          "Booking"
+        ],
+        "summary": "Add Bookings",
+        "operationId": "add_bookings_v1_bookings_add_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BookingCreateDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BookingDTO"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": "Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": "Access denied"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Booking not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": "Booking not found"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/bookings/update": {
+      "patch": {
+        "tags": [
+          "Booking"
+        ],
+        "summary": "Update Bookings",
+        "operationId": "update_bookings_v1_bookings_update_patch",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "booking_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Booking Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BookingCreateDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BookingDTO"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": "Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Booking is not waiting",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": "Booking is not waiting"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Booking not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": "Booking not found"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/bookings/delete": {
+      "delete": {
+        "tags": [
+          "Booking"
+        ],
+        "summary": "Delete Bookings",
+        "operationId": "delete_bookings_v1_bookings_delete_delete",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "booking_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Booking Id"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": "Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": "Access denied"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Booking not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": "Booking not found"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/bookings/activate": {
+      "post": {
+        "tags": [
+          "Booking"
+        ],
+        "summary": "Activate Booking",
+        "operationId": "activate_booking_v1_bookings_activate_post",
+        "parameters": [
+          {
+            "name": "booking_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Booking Id"
+            }
+          },
+          {
+            "name": "user_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "User Id"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": "Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": "Access denied"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Booking not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": "Booking not found"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/bookings/pending": {
+      "get": {
+        "tags": [
+          "Booking"
+        ],
+        "summary": "Pending Bookings",
+        "operationId": "pending_bookings_v1_bookings_pending_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/BookingDTO"
+                  },
+                  "type": "array",
+                  "title": "Response Pending Bookings V1 Bookings Pending Get"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": "Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": "Access denied"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/stats/coworking-count": {
+      "get": {
+        "tags": [
+          "Stats"
+        ],
+        "summary": "Get Coworking Count",
+        "operationId": "get_coworking_count_v1_stats_coworking_count_get",
+        "responses": {
+          "200": {
+            "description": "Returns count of coworkings",
+            "content": {
+              "application/json": 1
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/stats/workplaces-count": {
+      "get": {
+        "tags": [
+          "Stats"
+        ],
+        "summary": "Get Workplaces Count",
+        "operationId": "get_workplaces_count_v1_stats_workplaces_count_get",
+        "responses": {
+          "200": {
+            "description": "Returns count of workplaces",
+            "content": {
+              "application/json": 9
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/stats/medium-price-per-hour": {
+      "get": {
+        "tags": [
+          "Stats"
+        ],
+        "summary": "Get Medium Price Per Hour",
+        "operationId": "get_medium_price_per_hour_v1_stats_medium_price_per_hour_get",
+        "responses": {
+          "200": {
+            "description": "Returns medium price per hour",
+            "content": {
+              "application/json": 7461.42
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/stats/occupancy-rate": {
+      "get": {
+        "tags": [
+          "Stats"
+        ],
+        "summary": "Get Occupancy Rate",
+        "operationId": "get_occupancy_rate_v1_stats_occupancy_rate_get",
+        "responses": {
+          "200": {
+            "description": "Returns occupancy rate",
+            "content": {
+              "application/json": 7.5
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/cdn/upload": {
+      "post": {
+        "tags": [
+          "CDN"
+        ],
+        "summary": "Upload Image",
+        "operationId": "upload_image_v1_cdn_upload_post",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_upload_image_v1_cdn_upload_post"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Image uploaded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ImageLinkDTO"
+                },
+                "example": {
+                  "id": "b1d0d3c1-9a7d-4b7b-9d8f-6e6b1f5b5b8b",
+                  "path": "/v1/cdn/file/b1d0d3c1-9a7d-4b7b-9d8f-6e6b1f5b5b8b.jpg"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid image data",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": "Invalid image data"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/cdn/file/{filename}": {
+      "get": {
+        "tags": [
+          "CDN"
+        ],
+        "summary": "Get Image",
+        "description": "Get file from cdn",
+        "operationId": "get_image_v1_cdn_file__filename__get",
+        "parameters": [
+          {
+            "name": "filename",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Filename"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "File found",
+            "content": {
+              "application/json": {
+                "schema": {}
+              },
+              "image/jpeg": {
+                "example": "image/jpeg"
+              }
+            }
+          },
+          "404": {
+            "description": "File not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": "File not found"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/external/tg_admin/add": {
+      "post": {
+        "tags": [
+          "External"
+        ],
+        "summary": "Add Tg Admin",
+        "operationId": "add_tg_admin_v1_external_tg_admin_add_post",
+        "parameters": [
+          {
+            "name": "tg_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Tg Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of tg admins",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "example": [
+                  1282629807,
+                  1522105862,
+                  5367427116,
+                  946082604,
+                  256086824
+                ]
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/external/tg_admin/remove": {
+      "delete": {
+        "tags": [
+          "External"
+        ],
+        "summary": "Remove Tg Admin",
+        "operationId": "remove_tg_admin_v1_external_tg_admin_remove_delete",
+        "parameters": [
+          {
+            "name": "tg_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Tg Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of tg admins",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "example": [
+                  1282629807,
+                  1522105862,
+                  5367427116,
+                  946082604
+                ]
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Body_upload_image_v1_cdn_upload_post": {
+        "properties": {
+          "file": {
+            "type": "string",
+            "format": "binary",
+            "title": "File"
+          }
+        },
+        "type": "object",
+        "required": [
+          "file"
+        ],
+        "title": "Body_upload_image_v1_cdn_upload_post"
+      },
+      "BookingCreateDTO": {
+        "properties": {
+          "workplaces": {
+            "items": {
+              "type": "string",
+              "format": "uuid4",
+              "examples": [
+                "57f25aa0-ea44-4aa6-892f-1c3ebf1cab1b"
+              ]
+            },
+            "type": "array",
+            "title": "Workplaces"
+          },
+          "start_time": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Start Time",
+            "examples": [
+              "2025-03-04T06:37:03.959954"
+            ]
+          },
+          "end_time": {
+            "type": "string",
+            "format": "date-time",
+            "title": "End Time",
+            "examples": [
+              "2025-03-04T06:37:03.959993"
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "workplaces",
+          "start_time",
+          "end_time"
+        ],
+        "title": "BookingCreateDTO"
+      },
+      "BookingDTO": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid4",
+            "title": "Id",
+            "examples": [
+              "f3047cd8-56e6-46e4-ac2d-757550c1f62a"
+            ]
+          },
+          "user_id": {
+            "type": "integer",
+            "minimum": 1,
+            "title": "User Id",
+            "examples": [
+              1522105862
+            ]
+          },
+          "workplaces": {
+            "items": {
+              "$ref": "#/components/schemas/WorkplaceDTO"
+            },
+            "type": "array",
+            "title": "Workplaces"
+          },
+          "start_time": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Start Time",
+            "examples": [
+              "2025-03-04T06:37:03.959954"
+            ]
+          },
+          "end_time": {
+            "type": "string",
+            "format": "date-time",
+            "title": "End Time",
+            "examples": [
+              "2025-03-04T06:37:03.959993"
+            ]
+          },
+          "status": {
+            "$ref": "#/components/schemas/BookingStatus"
+          },
+          "total_price": {
+            "type": "integer",
+            "minimum": 0,
+            "title": "Total Price",
+            "examples": [
+              1500
+            ]
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At",
+            "examples": [
+              "2025-03-04T06:37:03.960093"
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "user_id",
+          "workplaces",
+          "start_time",
+          "end_time",
+          "status",
+          "total_price",
+          "created_at"
+        ],
+        "title": "BookingDTO"
+      },
+      "BookingStatus": {
+        "type": "string",
+        "enum": [
+          "WAITING",
+          "PROCESSING",
+          "FINISHED"
+        ],
+        "title": "BookingStatus"
+      },
+      "CoworkingCreateDTO": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Name",
+            "examples": [
+              "Коворкинг на Ленина"
+            ]
+          },
+          "address": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Address",
+            "examples": [
+              "г. Москва, ул. Ленина, 10"
+            ]
+          },
+          "photo_url": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Photo Url",
+            "examples": [
+              "https://prod-team-37-ajc3mefd.REDACTED/api/v1/cdn/file/99216f07-ecb3-4b70-9fd6-1bbdae5d3104.jpeg"
+            ]
+          },
+          "cover_url": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Cover Url",
+            "examples": [
+              "https://prod-team-37-ajc3mefd.REDACTED/api/v1/cdn/file/a078d506-a6e9-4f50-9a01-604c85ac4049.jpeg"
+            ]
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 0,
+                "examples": [
+                  "Коворкинг на Ленина - это пространство для работы и общения"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "address",
+          "photo_url",
+          "cover_url"
+        ],
+        "title": "CoworkingCreateDTO"
+      },
+      "CoworkingDTO": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid4",
+            "title": "Id",
+            "examples": [
+              "487dec82-396e-4cf3-b555-86cc5db6b415"
+            ]
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Name",
+            "examples": [
+              "Коворкинг на Ленина"
+            ]
+          },
+          "address": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Address",
+            "examples": [
+              "г. Москва, ул. Ленина, 10"
+            ]
+          },
+          "photo_url": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Photo Url",
+            "examples": [
+              "https://prod-team-37-ajc3mefd.REDACTED/api/v1/cdn/file/99216f07-ecb3-4b70-9fd6-1bbdae5d3104.jpeg"
+            ]
+          },
+          "cover_url": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Cover Url",
+            "examples": [
+              "https://prod-team-37-ajc3mefd.REDACTED/api/v1/cdn/file/a078d506-a6e9-4f50-9a01-604c85ac4049.jpeg"
+            ]
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 0,
+                "examples": [
+                  "Коворкинг на Ленина - это пространство для работы и общения"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At",
+            "examples": [
+              "2025-03-04T06:37:03.960093"
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "address",
+          "photo_url",
+          "cover_url",
+          "created_at"
+        ],
+        "title": "CoworkingDTO"
+      },
+      "CoworkingTariffCreateDTO": {
+        "properties": {
+          "coworking_id": {
+            "type": "string",
+            "format": "uuid4",
+            "title": "Coworking Id",
+            "examples": [
+              "487dec82-396e-4cf3-b555-86cc5db6b415"
+            ]
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Name",
+            "examples": [
+              "VIP"
+            ]
+          },
+          "color": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Color",
+            "examples": [
+              "#4CA50F"
+            ]
+          },
+          "price_per_hour": {
+            "type": "integer",
+            "minimum": 0,
+            "title": "Price Per Hour",
+            "examples": [
+              750
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "coworking_id",
+          "name",
+          "color",
+          "price_per_hour"
+        ],
+        "title": "CoworkingTariffCreateDTO"
+      },
+      "CoworkingTariffDTO": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid4",
+            "title": "Id",
+            "examples": [
+              "fe8279bc-2d9c-43ea-985c-0f3f53981335"
+            ]
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Name",
+            "examples": [
+              "VIP"
+            ]
+          },
+          "color": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Color",
+            "examples": [
+              "#4CA50F"
+            ]
+          },
+          "price_per_hour": {
+            "type": "integer",
+            "minimum": 0,
+            "title": "Price Per Hour",
+            "examples": [
+              750
+            ]
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At",
+            "examples": [
+              "2025-03-04T06:37:03.960093"
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "color",
+          "price_per_hour",
+          "created_at"
+        ],
+        "title": "CoworkingTariffDTO"
+      },
+      "CoworkingUpdateDTO": {
+        "properties": {
+          "name": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "examples": [
+                  "Коворкинг на Ленина"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name"
+          },
+          "address": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "examples": [
+                  "г. Москва, ул. Ленина, 10"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Address"
+          },
+          "photo_url": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "examples": [
+                  "https://prod-team-37-ajc3mefd.REDACTED/api/v1/cdn/file/99216f07-ecb3-4b70-9fd6-1bbdae5d3104.jpeg"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Photo Url"
+          },
+          "cover_url": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "examples": [
+                  "https://prod-team-37-ajc3mefd.REDACTED/api/v1/cdn/file/a078d506-a6e9-4f50-9a01-604c85ac4049.jpeg"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cover Url"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 0,
+                "examples": [
+                  "Коворкинг на Ленина - это пространство для работы и общения"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          }
+        },
+        "type": "object",
+        "title": "CoworkingUpdateDTO"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "ImageLinkDTO": {
+        "properties": {
+          "path": {
+            "type": "string",
+            "title": "Path"
+          }
+        },
+        "type": "object",
+        "required": [
+          "path"
+        ],
+        "title": "ImageLinkDTO"
+      },
+      "TelegramAuthDTO": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "minimum": 1,
+            "title": "Id",
+            "examples": [
+              1522105862
+            ]
+          },
+          "first_name": {
+            "type": "string",
+            "minLength": 1,
+            "title": "First Name",
+            "examples": [
+              "Дмитрий"
+            ]
+          },
+          "last_name": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 0,
+                "examples": [
+                  "Нагиев"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Name"
+          },
+          "username": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "examples": [
+                  "parapopovich"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Username"
+          },
+          "photo_url": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 0,
+                "examples": [
+                  "https://t.me/i/userpic/320/7IQwLdFc8nusS8VT2ll1tQnEW8pKzd3wP-s_SbiBsmY.svg"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Photo Url"
+          },
+          "auth_date": {
+            "type": "integer",
+            "minimum": 0,
+            "title": "Auth Date",
+            "examples": [
+              1742720967
+            ]
+          },
+          "hash": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Hash",
+            "examples": [
+              "035da2b6954c0e8dfd8de9a10b6644152a66c03aadda72205fec89806e0fc9b3"
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "first_name",
+          "auth_date",
+          "hash"
+        ],
+        "title": "TelegramAuthDTO"
+      },
+      "UserDTO": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "minimum": 1,
+            "title": "Id",
+            "examples": [
+              1522105862
+            ]
+          },
+          "first_name": {
+            "type": "string",
+            "minLength": 1,
+            "title": "First Name",
+            "examples": [
+              "Дмитрий"
+            ]
+          },
+          "last_name": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 0,
+                "examples": [
+                  "Нагиев"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Name"
+          },
+          "username": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "examples": [
+                  "parapopovich"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Username"
+          },
+          "photo_url": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 0,
+                "examples": [
+                  "https://t.me/i/userpic/320/7IQwLdFc8nusS8VT2ll1tQnEW8pKzd3wP-s_SbiBsmY.svg"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Photo Url"
+          },
+          "balance": {
+            "type": "integer",
+            "minimum": 0,
+            "title": "Balance",
+            "examples": [
+              4252
+            ]
+          },
+          "role": {
+            "$ref": "#/components/schemas/UserRole"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At",
+            "examples": [
+              "2025-03-04T06:37:03.960093"
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "first_name",
+          "balance",
+          "role",
+          "created_at"
+        ],
+        "title": "UserDTO"
+      },
+      "UserRole": {
+        "type": "string",
+        "enum": [
+          "USER",
+          "ADMIN"
+        ],
+        "title": "UserRole"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      },
+      "WorkplaceDTO": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid4",
+            "title": "Id",
+            "examples": [
+              "57f25aa0-ea44-4aa6-892f-1c3ebf1cab1b"
+            ]
+          },
+          "number": {
+            "type": "integer",
+            "minimum": 1,
+            "title": "Number",
+            "examples": [
+              14
+            ]
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Name",
+            "examples": [
+              "Стол 14"
+            ]
+          },
+          "status": {
+            "$ref": "#/components/schemas/WorkplaceStatus"
+          },
+          "x_cor": {
+            "type": "number",
+            "minimum": 0,
+            "title": "X Cor",
+            "examples": [
+              37.21
+            ]
+          },
+          "y_cor": {
+            "type": "number",
+            "minimum": 0,
+            "title": "Y Cor",
+            "examples": [
+              55.75
+            ]
+          },
+          "tariff": {
+            "$ref": "#/components/schemas/CoworkingTariffDTO"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At",
+            "examples": [
+              "2025-03-04T06:37:03.960093"
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "number",
+          "name",
+          "status",
+          "x_cor",
+          "y_cor",
+          "tariff",
+          "created_at"
+        ],
+        "title": "WorkplaceDTO"
+      },
+      "WorkplaceStatus": {
+        "type": "string",
+        "enum": [
+          "FREE",
+          "BOOKED",
+          "INACTIVE"
+        ],
+        "title": "WorkplaceStatus"
+      },
+      "WorkplaceUpsertDTO": {
+        "properties": {
+          "coworking_id": {
+            "type": "string",
+            "format": "uuid4",
+            "title": "Coworking Id",
+            "examples": [
+              "487dec82-396e-4cf3-b555-86cc5db6b415"
+            ]
+          },
+          "tariff_id": {
+            "type": "string",
+            "format": "uuid4",
+            "title": "Tariff Id",
+            "examples": [
+              "fe8279bc-2d9c-43ea-985c-0f3f53981335"
+            ]
+          },
+          "number": {
+            "type": "integer",
+            "minimum": 1,
+            "title": "Number",
+            "examples": [
+              14
+            ]
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Name",
+            "examples": [
+              "Стол 14"
+            ]
+          },
+          "tags": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Tags",
+            "examples": [
+              [
+                "Комфортный стол",
+                "Кресло",
+                "Кофемашина"
+              ]
+            ]
+          },
+          "x_cor": {
+            "type": "number",
+            "minimum": 0,
+            "title": "X Cor",
+            "examples": [
+              37.21
+            ]
+          },
+          "y_cor": {
+            "type": "number",
+            "minimum": 0,
+            "title": "Y Cor",
+            "examples": [
+              55.75
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "coworking_id",
+          "tariff_id",
+          "number",
+          "name",
+          "tags",
+          "x_cor",
+          "y_cor"
+        ],
+        "title": "WorkplaceUpsertDTO"
+      }
+    },
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "description": "JWT токен для авторизации. Формат: Bearer <токен>"
+      }
+    }
+  },
+  "servers": [
+    {
+      "url": "/api"
+    }
+  ]
+}

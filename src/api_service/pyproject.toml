@@ -1,0 +1,61 @@
+[project]
+name = "api-service"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "aiofiles>=24.1.0",
+    "asgi-lifespan>=2.1.0",
+    "asgi-monitor>=0.6.0",
+    "asyncpg>=0.30.0",
+    "coverage>=7.6.12",
+    "dishka>=1.4.2",
+    "fastapi[standard]>=0.115.9",
+    "passlib>=1.7.4",
+    "pydantic-settings>=2.8.1",
+    "pytest>=8.3.5",
+    "pytest-anyio>=0.0.0",
+    "pytest-cov>=6.0.0",
+    "pytest-env>=1.1.5",
+    "python-jose>=3.4.0",
+    "redis>=5.2.1",
+    "sentry-sdk[fastapi]>=2.22.0",
+    "sqlalchemy>=2.0.38",
+    "trio>=0.29.0",
+]
+
+
+[tool.pytest.ini_options]
+log_cli = true
+log_cli_level = "INFO"
+
+addopts = "-s -v --cov=. --cov-report=term-missing --cov-report=html --cov-branch"
+
+filterwarnings = [
+    "error",
+    "ignore::UserWarning",
+    "ignore::DeprecationWarning",
+    "ignore:function ham(\\(\\)) is deprecated:DeprecationWarning"
+]
+
+asyncio_default_fixture_loop_scope = "session"
+
+env = [
+    "SERVER_HOST=0.0.0.0",
+    "SERVER_PORT=8080",
+    "POSTGRES_DSN=postgresql+asyncpg://prodovec:imba@REDACTED/BookIT-DB",
+    "POSTGRES_USERNAME=prodovec",
+    "POSTGRES_PASSWORD=imba",
+    "POSTGRES_HOST=postgres",
+    "POSTGRES_PORT=5432",
+    "POSTGRES_DATABASE=BookIT-DB",
+    "REDIS_HOST=REDACTED",
+    "REDIS_PORT=6379",
+    "REDIS_DB=1",
+    "STORAGE_PATH=cdn/storage",
+    "ACCESS_TOKEN_EXPIRE_MINUTES=180",
+    "SECRET_KEY=G3ai2%NT&EV6(V5Mqs*Vepf!M8piGRd^m&uE",
+    "ALGORITHM=HS256",
+    "TG_ADMINS=[1282629807,1522105862,5367427116,946082604,256086824]"
+]
